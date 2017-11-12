@@ -1,9 +1,9 @@
 fun calcFunction(x: Double): Double {
-    return 2 - Math.sin(Math.PI * x)
+    return 1 - Math.sin(x)
 }
 
 fun calcKernel(x: Double, s: Double): Double {
-    return 1 / (2 + Math.sin(Math.PI * (x + s)))
+    return Math.cos(x - s)
 }
 
 fun gauss(aMtr: Matrix, bVect: Vector): Vector {
@@ -163,7 +163,7 @@ fun main(args: Array<String>) {
     val nodeNum = 10
     val lambda = 0.5
     val intervalBottom = 0.0
-    val intervalUpper = 1.0
+    val intervalUpper = Math.PI / 2
     val step = (intervalUpper - intervalBottom) / nodeNum
     val nodes = Vector(nodeNum + 1)
 
