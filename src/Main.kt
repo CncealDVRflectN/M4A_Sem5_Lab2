@@ -125,7 +125,8 @@ fun calcSequentialApproximateFredholm(nodes: Vector, lambda: Double, intervalBot
     var solutionCur: Vector
     val solutionNext = Vector(nodes.size)
     val step = (intervalUpper - intervalBottom) / (nodes.size - 1)
-    val accuracy = Math.pow(step, 2.0)
+    val accuracy = Math.pow(step, 5.0)
+    var counter = 0
 
     for (i in 0 until solutionNext.size) {
         solutionNext[i] = calcFunction(nodes[i])
@@ -135,7 +136,9 @@ fun calcSequentialApproximateFredholm(nodes: Vector, lambda: Double, intervalBot
         for (i in 0 until solutionNext.size) {
             solutionNext[i] = lambda * calcIntegralLeftRectangles(i, nodes, solutionCur, step) + calcFunction(nodes[i])
         }
+        counter++
     } while ((solutionNext - solutionCur).norm() >= accuracy)
+    println("Количество итераций: " + counter)
 
     return solutionNext
 }
@@ -144,7 +147,8 @@ fun calcSequentialApproximateVolterra(nodes: Vector, lambda: Double, intervalBot
     var solutionCur: Vector
     val solutionNext = Vector(nodes.size)
     val step = (intervalUpper - intervalBottom) / (nodes.size - 1)
-    val accuracy = Math.pow(step, 2.0)
+    val accuracy = Math.pow(step, 5.0)
+    var counter = 0
 
     for (i in 0 until solutionNext.size) {
         solutionNext[i] = calcFunction(nodes[i])
@@ -154,14 +158,16 @@ fun calcSequentialApproximateVolterra(nodes: Vector, lambda: Double, intervalBot
         for (i in 0 until solutionNext.size) {
             solutionNext[i] = lambda * calcIntegralMiddleRectanglesVolterra(i, nodes, solutionCur, step) + calcFunction(nodes[i])
         }
+        counter++
     } while ((solutionNext - solutionCur).norm() >= accuracy)
+    println("Количество итераций: " + counter)
 
     return solutionNext
 }
 
 fun main(args: Array<String>) {
     val nodeNum = 10
-    val lambda = 0.5
+    val lambda = 0.1
     val intervalBottom = 0.0
     val intervalUpper = Math.PI / 2
     val step = (intervalUpper - intervalBottom) / nodeNum
